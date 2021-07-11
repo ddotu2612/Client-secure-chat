@@ -15,7 +15,7 @@ export default class MessageBox extends Component {
     }
 
     sendMessageToServer() {
-        if (this.state.msgText) { //to not send empty message
+        if (this.state.msgText) { //Không gửi tin nhắn rỗng
             let msgObj = {
                 message: this.state.msgText,
                 date: moment().format('LT')
@@ -25,7 +25,7 @@ export default class MessageBox extends Component {
         this.setState({ msgText: "" })
     }
 
-    // Method to Display Messages
+    // Phương thức hiển thị tin nhắn
     addMessagesToChat() {
         if (this.props.messages) {
             const msgContent = this.props.messages.map(function (message) {
@@ -54,7 +54,7 @@ export default class MessageBox extends Component {
         return (
             <div className="message-box w-3/5">
                 <div className=" w-full relative h-full grid grid-flow-rows">
-                    {/* Contact Options Bar */}
+                    {/* Lựa chọn liên lạc*/}
                     <div className="user-bar flex w-full py-4 absolute inset-x-0 top-0 shadow-lg">
                         <div className="w-12 rounded-full relative h-12 text-center mx-2">
                             <img className="profile-picture absolute h-full object-cover self-center p-2" src={"/images/" + this.props.selectedUser.img} alt="dp" />
@@ -66,11 +66,11 @@ export default class MessageBox extends Component {
                             <i className="fa fa-ellipsis-v p-2 text-l"></i>
                         </div>
                     </div>
-                    {/* Messages Area */}
+                    {/* Khu vực nhắn tin*/}
                     <div className="message-area clearfix overflow-auto my-20 p-2">
                         {this.addMessagesToChat()}
                     </div>
-                    {/* Input Box and other Options */}
+                    {/* Các options khác*/}
                     <div className="input-box flex p-4 bottom-0 absolute inset-x-0 bg-white shadow-inner">
                         <input className="msg-input p-2 w-4/5 float-left text-sm focus:outline-none focus:ring" placeholder="Write Message.."
                             value={this.state.msgText} onChange={(e) => this.handleMessageText(e)}>

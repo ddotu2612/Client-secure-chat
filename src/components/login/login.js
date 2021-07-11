@@ -15,7 +15,7 @@ export default class Login extends Component {
     }
 
     login = async () => {
-        // Call Login API to get user ID if the user exists in DB
+        // Đăng nhập vào hệ thống
         try {
             let loginResult = await API.logIn(this.state.username)
             this.onLoginComplete(loginResult.data)

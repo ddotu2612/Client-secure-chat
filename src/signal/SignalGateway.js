@@ -3,21 +3,14 @@ import util from './helpers'
 import SignalProtocolStore from "./InMemorySignalProtocolStore";
 
 const libsignal  = window.libsignal
-/**
- * Dummy signal server connector.
- * 
- * In a real application this component would connect to your signal 
- * server for storing and fetching user public keys over HTTP.
- */
 export class SignalServerStore {
     /* constructor() {
         this.store = {};
     } */
     /**
-     * When a user logs on they should generate their keys and then register them with the server.
-     * 
+     * Khi người dùng đăng nhập họ tạo ra các khoá của họ và đăng ký với server
      * @param userId The user ID.
-     * @param preKeyBundle The user's generated pre-key bundle.
+     * @param preKeyBundle Bộ khoá do người dùng tạo
      */
     registerNewPreKeyBundle(userId, preKeyBundle) {
         let storageBundle = { ...preKeyBundle }
@@ -26,14 +19,13 @@ export class SignalServerStore {
         storageBundle.signedPreKey.publicKey = util.arrayBufferToBase64(storageBundle.signedPreKey.publicKey)
         storageBundle.signedPreKey.signature = util.arrayBufferToBase64(storageBundle.signedPreKey.signature)
         localStorage.setItem(userId, JSON.stringify(storageBundle))
-        // this.store[userId] = preKeyBundle;
     }
 
     /**
-     * Gets the pre-key bundle for the given user ID.
-     * If you want to start a conversation with a user, you need to fetch their pre-key bundle first.
+     * Lấy bộ pre-key cho người dùng
+     * Nếu muốn bắt đầu cuộc trò chuyện với một người dùng phải lấy bộ khoá của họ đầu tiên
      * 
-     * @param userId The ID of the user.
+     * @param userId ID của người dùng.
      */
     getPreKeyBundle(userId) {
         let storageBundle = JSON.parse(localStorage.getItem(userId))
@@ -42,12 +34,11 @@ export class SignalServerStore {
         storageBundle.signedPreKey.publicKey = util.base64ToArrayBuffer(storageBundle.signedPreKey.publicKey)
         storageBundle.signedPreKey.signature = util.base64ToArrayBuffer(storageBundle.signedPreKey.signature)
         return storageBundle
-        // return this.store[userId];
     }
 }
 
 /**
- * A signal protocol manager.
+ *  Quản lý giao thức.
  */
 class SignalProtocolManager {
     constructor(userId, signalServerStore) {
@@ -57,7 +48,7 @@ class SignalProtocolManager {
     }
 
     /**
-     * Initialize the manager when the user logs on.
+     * Khởi tạo một manager khi người dùng log on.
      */
     async initializeAsync() {
         await this._generateIdentityAsync();
@@ -68,23 +59,23 @@ class SignalProtocolManager {
     }
 
     /**
-     * Encrypt a message for a given user.
+     * Mã hoá tin nhắn cho người dùng.
      * 
-     * @param remoteUserId The recipient user ID.
-     * @param message The message to send.
+     * @param remoteUserId ID người nhận.
+     * @param message
      */
     async encryptMessageAsync(remoteUserId, message) {
         var sessionCipher = this.store.loadSessionCipher(remoteUserId);
 
         if (sessionCipher == null) {
             var address = new libsignal.SignalProtocolAddress(remoteUserId, 123);
-            // Instantiate a SessionBuilder for a remote recipientId + deviceId tuple.
+            // Khởi tạo một SessionBuilder cho recipientId và deviceId từ xa.
             var sessionBuilder = new libsignal.SessionBuilder(this.store, address);
 
             var remoteUserPreKey = this.signalServerStore.getPreKeyBundle(remoteUserId);
-            // Process a prekey fetched from the server. Returns a promise that resolves
-            // once a session is created and saved in the store, or rejects if the
-            // identityKey differs from a previously seen identity for this address.
+            // Process a prekey được lấy từ server. Trả về một promise giải quyết khi một
+            // session được tạo and được lưu trong store, hoặc từ chối nếu
+            // identityKey khác một identity đã nhận trước cho vấn đề này.
             await sessionBuilder.processPreKey(remoteUserPreKey);
 
             var sessionCipher = new libsignal.SessionCipher(this.store, address);
@@ -96,11 +87,11 @@ class SignalProtocolManager {
     }
 
     /**
-     * Decrypts a message from a given user.
+     * Giải mã tin nhắn
      * 
-     * @param remoteUserId The user ID of the message sender.
-     * @param cipherText The encrypted message bundle. (This includes the encrypted message itself and accompanying metadata)
-     * @returns The decrypted message string.
+     * @param remoteUserId User ID của người gửi .
+     * @param cipherText Tin nhắn được mã hoá
+     * @returns Trả về tin nhắn được giải mã.
      */
     async decryptMessageAsync(remoteUserId, cipherText) {
         var sessionCipher = this.store.loadSessionCipher(remoteUserId);
@@ -112,21 +103,21 @@ class SignalProtocolManager {
         }
 
         var messageHasEmbeddedPreKeyBundle = cipherText.type === 3;
-        // Decrypt a PreKeyWhisperMessage by first establishing a new session.
-        // Returns a promise that resolves when the message is decrypted or
-        // rejects if the identityKey differs from a previously seen identity for this address.
+        // Giải mã a PreKeyWhisperMessage bằng cách thiết lập một phiên mới đầu tiên.
+        // Trả về một promise sẽ giải quyết khi tin nhắn được giải mã hoặc
+        // từ chối nếu danh identityKey khác với ID đã thấy trước đây cho địa chỉ này.
         if (messageHasEmbeddedPreKeyBundle) {
             var decryptedMessage = await sessionCipher.decryptPreKeyWhisperMessage(cipherText.body, 'binary');
             return util.toString(decryptedMessage);
         } else {
-            // Decrypt a normal message using an existing session
+            // Giải mã một tin nhắn bình thường bằng một phiên hiện có.
             var decryptedMessage = await sessionCipher.decryptWhisperMessage(cipherText.body, 'binary');
             return util.toString(decryptedMessage);
         }
     }
 
     /**
-     * Generates a new identity for the local user.
+     * Tạo định danh mới cho người dùng cục bộ.
      */
     async _generateIdentityAsync() {
         var results = await Promise.all([
@@ -139,9 +130,9 @@ class SignalProtocolManager {
     }
 
     /**
-     * Generates a new pre-key bundle for the local user.
+     * Tạo gói pre-key mới cho người dùng cục bộ.
      * 
-     * @returns A pre-key bundle.
+     * @returns Một bộ pre-key.
      */
     async _generatePreKeyBundleAsync() {
         var result = await Promise.all([

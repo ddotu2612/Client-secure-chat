@@ -18,16 +18,6 @@
   clear: both;
 }
 
-/* .outgoing {
-  float: right;
-  background-color: #ebf8ff;
-}
-
-.incoming {
-  float: left;
-  background-color: #bee3f8;
-} */
-
 .last-message {
   white-space: nowrap; 
   width: auto; 
@@ -35,10 +25,6 @@
   text-overflow: ellipsis; 
 }
 
-/* .input-box {
-  border-top: 1px solid;
-  border-top-color: rgb(202, 202, 202);
-} */
 
 .user {
     filter: none; 
@@ -57,12 +43,3 @@
     transition: all .5s ease-in-out;  
 
   }
-
-/* .contact-box {
-    visibility: hidden;
-    clear: both;
-    float: left;
-    margin: 10px auto 5px 20px;
-    width: 28%;
-    display: none;
-} */

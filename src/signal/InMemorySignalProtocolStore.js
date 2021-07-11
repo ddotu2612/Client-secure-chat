@@ -73,7 +73,7 @@ SignalProtocolStore.prototype = {
 
   },
 
-  /* Returns a prekeypair object or undefined */
+  /* Trả về một cặp đối tượng khoá hoặc undefined*/
   loadPreKey: function (keyId) {
     var res = this.get('25519KeypreKey' + keyId);
     if (res !== undefined) {
@@ -88,7 +88,7 @@ SignalProtocolStore.prototype = {
     return Promise.resolve(this.remove('25519KeypreKey' + keyId));
   },
 
-  /* Returns a signed keypair object or undefined */
+  /*Trả về khoá được ký hoặc undefined */
   loadSignedPreKey: function (keyId) {
     var res = this.get('25519KeysignedKey' + keyId);
     if (res !== undefined) {
@@ -121,7 +121,7 @@ SignalProtocolStore.prototype = {
     return Promise.resolve();
   },
 
-  /* Stores and loads a session cipher */
+  /*Lưu và tải một session*/
   storeSessionCipher(identifier, cipher) {
     this.put('cipher' + identifier, cipher);
   },

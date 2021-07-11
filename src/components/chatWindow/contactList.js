@@ -12,7 +12,7 @@ export default class ContactList extends Component {
         this.props.selectedUser(selectedUser)
     }
 
-    // Method to Update Last Message
+    // Phương thức cập nhật tin nhắn cuối cùng
     getLastMessage(userid) {
         for (let chat of Object.values(this.props.chats)) {
             if (chat.members.includes(userid)) {
