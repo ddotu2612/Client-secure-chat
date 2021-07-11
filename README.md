@@ -1,6 +1,6 @@
 # Một ứng dụng chat an toàn sử dụng react va signal protocol
 
-## Cong nghe su dung
+## Công nghệ sử dụng
 1. Thu vien ReactJs de tao giao dien
 2. Giao thuc Signal cho ma hoa dau cuoi
 3. Axios cho AJAX
@@ -32,7 +32,7 @@
     };
 ```
 
-## Giao thuc trao doi tin nhan an toan Signal
+## Giao thức trao đổi tin nhắn an toàn Signal
 1. InMemorySignalProtocolStore.js (and helpers.js) được lấy cho mục đích lưu trữ từ Signal Github (liên kết được đề cập trong tài nguyên)
 2. libsignal-protocol.js (cũng từ Signal Github) triển khai giao thức
 3. Signal Gateway - Được tạo ra để tích hợp React với Signal. Nó thực hiện chức năng Khởi tạo, Mã hóa và Giải mã khi được yêu cầu trên Frontend.
