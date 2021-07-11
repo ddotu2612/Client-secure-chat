@@ -1,0 +1,68 @@
+.btn-primary {
+  background: #2e3942;
+  transition:all .3s ease-in-out
+}
+.btn-primary:hover {
+  background: black;
+}
+
+/* Messages Styles */
+.message {
+  color: #2d3748;
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  clear: both;
+}
+
+/* .outgoing {
+  float: right;
+  background-color: #ebf8ff;
+}
+
+.incoming {
+  float: left;
+  background-color: #bee3f8;
+} */
+
+.last-message {
+  white-space: nowrap; 
+  width: auto; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+
+/* .input-box {
+  border-top: 1px solid;
+  border-top-color: rgb(202, 202, 202);
+} */
+
+.user {
+    filter: none; 
+    transition: all .5s ease-in-out;  
+  }
+
+.user:hover {
+    filter: gray;
+    transform: scale(1.01);
+    cursor: pointer;
+  }
+
+.send-button:hover {
+    cursor: pointer;
+    transform: scale(1.30);
+    transition: all .5s ease-in-out;  
+
+  }
+
+/* .contact-box {
+    visibility: hidden;
+    clear: both;
+    float: left;
+    margin: 10px auto 5px 20px;
+    width: 28%;
+    display: none;
+} */
