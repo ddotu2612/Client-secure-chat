@@ -1,4 +1,4 @@
-# Mot ung dung chat an toan su dung react va signal protocol
+# Một ứng dụng chat an toàn sử dụng react va signal protocol
 
 ## Cong nghe su dung
 1. Thu vien ReactJs de tao giao dien
