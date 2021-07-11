@@ -1,3 +1,7 @@
+/*
+ * vim: ts=4:sw=4
+ */
+/* global dcodeIO */
 const libsignal = window.libsignal
 
 const util = (function () {
@@ -31,6 +35,7 @@ const util = (function () {
             return new dcodeIO.ByteBuffer.wrap(thing, 'binary').toArrayBuffer();
         },
         isEqual: function (a, b) {
+            // TODO: Special-case arraybuffers, etc
             if (a === undefined || b === undefined) {
                 return false;
             }
